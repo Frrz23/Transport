@@ -1,0 +1,6 @@
+@Transport_HostAddress = http://localhost:5100
+
+GET {{Transport_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
