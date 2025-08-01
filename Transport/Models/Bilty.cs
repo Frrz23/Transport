@@ -21,5 +21,7 @@
         public decimal OtherCharge { get; set; }
         public decimal VATAmount { get; set; }
         public int CreatedBy { get; set; }
+        public List<BiltyItem> BiltyItems { get; set; } = new(); // ✅ Must be there
+
     }
 }
