@@ -1,7 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using Transport.Data;
-using Transport.Service.IService;
+using Transport.Data.Repositories;
+using Transport.Data.Repositories.IRepositories;
 using Transport.Service;
+using Transport.Service.IService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,7 +20,7 @@ builder.Services.AddControllers()
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddScoped<IBiltyService, BiltyService>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 var app = builder.Build();
 

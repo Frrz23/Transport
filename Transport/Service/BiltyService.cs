@@ -1,6 +1,7 @@
 ﻿using DateConverterNepali;
 using Microsoft.EntityFrameworkCore;
 using Transport.Data;
+using Transport.Data.Repositories.IRepositories;
 using Transport.Dto;
 using Transport.Models;
 using Transport.Service.IService;
@@ -8,12 +9,12 @@ namespace Transport.Service
 {
     public class BiltyService : IBiltyService
     {
-        private readonly TransportDbContext _context;
-        public BiltyService(TransportDbContext context)
-        {
-            _context = context;
-        }
+        private readonly IUnitOfWork _unitOfWork;
 
+        public BiltyService(IUnitOfWork unitOfWork)
+        {
+            _unitOfWork = unitOfWork;
+        }
         public async Task<int> CreateBiltyAsync(CreateBiltyDto dto)
         {
             var nepaliDate = DateConverter.GetDateInBS(
@@ -46,16 +47,15 @@ namespace Transport.Service
                 }).ToList()
             };
 
-            _context.Bilties.Add(bilty);
-            await _context.SaveChangesAsync();
+            _unitOfWork.Bilties.AddAsync(bilty);
+            await _unitOfWork.CompleteAsync();
             return bilty.BiltyId;
         }
 
         public async Task<Bilty> GetBiltyAsync(int id)
         {
-            return await _context.Bilties
-                .Include(b => b.BiltyItems)
-                .FirstOrDefaultAsync(b => b.BiltyId == id);
+            return await _unitOfWork.Bilties.GetBiltyWithItemsAsync(id);
+               
         }
     }
 
