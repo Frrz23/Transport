@@ -20,7 +20,41 @@ namespace Transport.Data
         public DbSet<Manifest> Manifests { get; set; }
         public DbSet<ManifestItem> ManifestItems { get; set; }
         public DbSet<MoneyReceipt> MoneyReceipts { get; set; }
+        public DbSet<PackageType> PackageTypes { get; set; }
+
+
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            // ---- Bilty ↔ Branch ----
+            modelBuilder.Entity<Bilty>()
+                .HasOne(b => b.FromBranch)
+                .WithMany()
+                .HasForeignKey(b => b.FromBranchId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Bilty>()
+                .HasOne(b => b.ToBranch)
+                .WithMany()
+                .HasForeignKey(b => b.ToBranchId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // ---- Bilty ↔ Party ----
+            modelBuilder.Entity<Bilty>()
+                .HasOne(b => b.Sender)
+                .WithMany()
+                .HasForeignKey(b => b.SenderId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Bilty>()
+                .HasOne(b => b.Receiver)
+                .WithMany()
+                .HasForeignKey(b => b.ReceiverId)
+                .OnDelete(DeleteBehavior.Restrict);
+        }
 
     }
-
 }
+

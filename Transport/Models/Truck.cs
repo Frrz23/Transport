@@ -8,5 +8,7 @@
         public string PAN { get; set; }
         public string License { get; set; }
         public string Mobile { get; set; }
+        public bool IsActive { get; set; } = true;
+
     }
 }

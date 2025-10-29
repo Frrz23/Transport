@@ -12,8 +12,8 @@ using Transport.Data;
 namespace Transport.Migrations
 {
     [DbContext(typeof(TransportDbContext))]
-    [Migration("20250801061114_biltynllable")]
-    partial class biltynllable
+    [Migration("20251029142458_modeladdedrestructurd")]
+    partial class modeladdedrestructurd
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -92,16 +92,28 @@ namespace Transport.Migrations
 
                     b.HasKey("BiltyId");
 
+                    b.HasIndex("FromBranchId");
+
+                    b.HasIndex("ReceiverId");
+
+                    b.HasIndex("SenderId");
+
+                    b.HasIndex("SeriesId");
+
+                    b.HasIndex("ToBranchId");
+
+                    b.HasIndex("TruckId");
+
                     b.ToTable("Bilties");
                 });
 
             modelBuilder.Entity("Transport.Models.BiltyItem", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("BiltyItemId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BiltyItemId"));
 
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(18,2)");
@@ -113,14 +125,10 @@ namespace Transport.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ItemId")
+                    b.Property<int?>("PackageTypeId")
                         .HasColumnType("int");
 
-                    b.Property<string>("PackageType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ProductId")
+                    b.Property<int?>("ProductId")
                         .HasColumnType("int");
 
                     b.Property<int>("Quantity")
@@ -135,9 +143,11 @@ namespace Transport.Migrations
                     b.Property<decimal>("Weight")
                         .HasColumnType("decimal(18,2)");
 
-                    b.HasKey("Id");
+                    b.HasKey("BiltyItemId");
 
                     b.HasIndex("BiltyId");
+
+                    b.HasIndex("PackageTypeId");
 
                     b.HasIndex("ProductId");
 
@@ -199,11 +209,11 @@ namespace Transport.Migrations
 
             modelBuilder.Entity("Transport.Models.Manifest", b =>
                 {
-                    b.Property<int>("ManifestId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ManifestId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("CreatedBy")
                         .HasColumnType("int");
@@ -211,11 +221,16 @@ namespace Transport.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("DriverId")
-                        .HasColumnType("int");
+                    b.Property<string>("DriverName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("FromBranchId")
                         .HasColumnType("int");
+
+                    b.Property<string>("LicenseNo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ManifestNo")
                         .IsRequired()
@@ -225,8 +240,23 @@ namespace Transport.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Remarks")
+                    b.Property<string>("Mobile")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OwnerName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PAN")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Remarks")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("SeriesId")
@@ -235,18 +265,18 @@ namespace Transport.Migrations
                     b.Property<int>("TruckId")
                         .HasColumnType("int");
 
-                    b.HasKey("ManifestId");
+                    b.HasKey("Id");
 
                     b.ToTable("Manifests");
                 });
 
             modelBuilder.Entity("Transport.Models.ManifestItem", b =>
                 {
-                    b.Property<int>("ManifestItemId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ManifestItemId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(18,2)");
@@ -254,13 +284,28 @@ namespace Transport.Migrations
                     b.Property<int>("BiltyId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Consignee")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Destination")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("ManifestId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PaymentMode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Quantity")
                         .HasColumnType("int");
 
                     b.Property<decimal>("Weight")
                         .HasColumnType("decimal(18,2)");
 
-                    b.HasKey("ManifestItemId");
+                    b.HasKey("Id");
 
                     b.HasIndex("BiltyId");
 
@@ -308,6 +353,30 @@ namespace Transport.Migrations
                     b.ToTable("MoneyReceipts");
                 });
 
+            modelBuilder.Entity("Transport.Models.PackageType", b =>
+                {
+                    b.Property<int>("PackageTypeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PackageTypeId"));
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("PackageTypeId");
+
+                    b.ToTable("PackageTypes");
+                });
+
             modelBuilder.Entity("Transport.Models.Party", b =>
                 {
                     b.Property<int>("PartyId")
@@ -319,6 +388,9 @@ namespace Transport.Migrations
                     b.Property<string>("Address")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -349,6 +421,9 @@ namespace Transport.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -368,6 +443,9 @@ namespace Transport.Migrations
 
                     b.Property<int>("BranchId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -425,6 +503,9 @@ namespace Transport.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TruckId"));
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
                     b.Property<string>("License")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -450,6 +531,57 @@ namespace Transport.Migrations
                     b.ToTable("Trucks");
                 });
 
+            modelBuilder.Entity("Transport.Models.Bilty", b =>
+                {
+                    b.HasOne("Transport.Models.Branch", "FromBranch")
+                        .WithMany()
+                        .HasForeignKey("FromBranchId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Transport.Models.Party", "Receiver")
+                        .WithMany()
+                        .HasForeignKey("ReceiverId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Transport.Models.Party", "Sender")
+                        .WithMany()
+                        .HasForeignKey("SenderId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Transport.Models.Series", "Series")
+                        .WithMany()
+                        .HasForeignKey("SeriesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Transport.Models.Branch", "ToBranch")
+                        .WithMany()
+                        .HasForeignKey("ToBranchId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Transport.Models.Truck", "Truck")
+                        .WithMany()
+                        .HasForeignKey("TruckId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("FromBranch");
+
+                    b.Navigation("Receiver");
+
+                    b.Navigation("Sender");
+
+                    b.Navigation("Series");
+
+                    b.Navigation("ToBranch");
+
+                    b.Navigation("Truck");
+                });
+
             modelBuilder.Entity("Transport.Models.BiltyItem", b =>
                 {
                     b.HasOne("Transport.Models.Bilty", "Bilty")
@@ -458,13 +590,17 @@ namespace Transport.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Transport.Models.PackageType", "PackageType")
+                        .WithMany("BiltyItems")
+                        .HasForeignKey("PackageTypeId");
+
                     b.HasOne("Transport.Models.Product", "Product")
                         .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ProductId");
 
                     b.Navigation("Bilty");
+
+                    b.Navigation("PackageType");
 
                     b.Navigation("Product");
                 });
@@ -478,7 +614,7 @@ namespace Transport.Migrations
                         .IsRequired();
 
                     b.HasOne("Transport.Models.Manifest", "Manifest")
-                        .WithMany()
+                        .WithMany("ManifestItems")
                         .HasForeignKey("ManifestId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -522,6 +658,16 @@ namespace Transport.Migrations
                 });
 
             modelBuilder.Entity("Transport.Models.Bilty", b =>
+                {
+                    b.Navigation("BiltyItems");
+                });
+
+            modelBuilder.Entity("Transport.Models.Manifest", b =>
+                {
+                    b.Navigation("ManifestItems");
+                });
+
+            modelBuilder.Entity("Transport.Models.PackageType", b =>
                 {
                     b.Navigation("BiltyItems");
                 });

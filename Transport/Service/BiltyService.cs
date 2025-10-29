@@ -37,7 +37,7 @@ namespace Transport.Service
                 TotalAmount = dto.TotalAmount,
                 BiltyItems = dto.BiltyItems.Select(i => new BiltyItem
                 {
-                    PackageType = i.PackageType,
+                    PackageTypeId = i.PackageTypeId,
                     GoodsDescription = i.GoodsDescription,
                     Quantity = i.Quantity,
                     Weight = (decimal)i.Weight,

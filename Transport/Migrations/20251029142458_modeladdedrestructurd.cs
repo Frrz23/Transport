@@ -6,41 +6,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Transport.Migrations
 {
     /// <inheritdoc />
-    public partial class databasecreated : Migration
+    public partial class modeladdedrestructurd : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "Bilties",
-                columns: table => new
-                {
-                    BiltyId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    SeriesId = table.Column<int>(type: "int", nullable: false),
-                    BiltyNo = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    BookingDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    BookingMiti = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FromBranchId = table.Column<int>(type: "int", nullable: false),
-                    ToBranchId = table.Column<int>(type: "int", nullable: false),
-                    SenderId = table.Column<int>(type: "int", nullable: false),
-                    ReceiverId = table.Column<int>(type: "int", nullable: false),
-                    TruckId = table.Column<int>(type: "int", nullable: false),
-                    PaymentMode = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TotalAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    TotalWeight = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Freight = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    STCharge = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    LabourCharge = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    OtherCharge = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    VATAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    CreatedBy = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Bilties", x => x.BiltyId);
-                });
-
             migrationBuilder.CreateTable(
                 name: "Branches",
                 columns: table => new
@@ -76,7 +46,7 @@ namespace Transport.Migrations
                 name: "Manifests",
                 columns: table => new
                 {
-                    ManifestId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     SeriesId = table.Column<int>(type: "int", nullable: false),
                     ManifestNo = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -84,13 +54,33 @@ namespace Transport.Migrations
                     Miti = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     FromBranchId = table.Column<int>(type: "int", nullable: false),
                     TruckId = table.Column<int>(type: "int", nullable: false),
-                    DriverId = table.Column<int>(type: "int", nullable: false),
-                    Remarks = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DriverName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LicenseNo = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    OwnerName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Mobile = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PAN = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Remarks = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedBy = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Manifests", x => x.ManifestId);
+                    table.PrimaryKey("PK_Manifests", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PackageTypes",
+                columns: table => new
+                {
+                    PackageTypeId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PackageTypes", x => x.PackageTypeId);
                 });
 
             migrationBuilder.CreateTable(
@@ -102,7 +92,8 @@ namespace Transport.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PAN = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    VATType = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    VATType = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -116,7 +107,8 @@ namespace Transport.Migrations
                     ProductId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -133,7 +125,8 @@ namespace Transport.Migrations
                     OwnerName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PAN = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     License = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Mobile = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Mobile = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -150,7 +143,8 @@ namespace Transport.Migrations
                     Prefix = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     NextNumber = table.Column<int>(type: "int", nullable: false),
                     UsedFor = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    BranchId = table.Column<int>(type: "int", nullable: false)
+                    BranchId = table.Column<int>(type: "int", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -185,34 +179,6 @@ namespace Transport.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ManifestItems",
-                columns: table => new
-                {
-                    ManifestItemId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ManifestId = table.Column<int>(type: "int", nullable: false),
-                    BiltyId = table.Column<int>(type: "int", nullable: false),
-                    Weight = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ManifestItems", x => x.ManifestItemId);
-                    table.ForeignKey(
-                        name: "FK_ManifestItems_Bilties_BiltyId",
-                        column: x => x.BiltyId,
-                        principalTable: "Bilties",
-                        principalColumn: "BiltyId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ManifestItems_Manifests_ManifestId",
-                        column: x => x.ManifestId,
-                        principalTable: "Manifests",
-                        principalColumn: "ManifestId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "MoneyReceipts",
                 columns: table => new
                 {
@@ -238,24 +204,90 @@ namespace Transport.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Bilties",
+                columns: table => new
+                {
+                    BiltyId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SeriesId = table.Column<int>(type: "int", nullable: false),
+                    BiltyNo = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    BookingDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    BookingMiti = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FromBranchId = table.Column<int>(type: "int", nullable: false),
+                    ToBranchId = table.Column<int>(type: "int", nullable: false),
+                    SenderId = table.Column<int>(type: "int", nullable: false),
+                    ReceiverId = table.Column<int>(type: "int", nullable: false),
+                    TruckId = table.Column<int>(type: "int", nullable: false),
+                    PaymentMode = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TotalAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    TotalWeight = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Freight = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    STCharge = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    LabourCharge = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    OtherCharge = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    VATAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    CreatedBy = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Bilties", x => x.BiltyId);
+                    table.ForeignKey(
+                        name: "FK_Bilties_Branches_FromBranchId",
+                        column: x => x.FromBranchId,
+                        principalTable: "Branches",
+                        principalColumn: "BranchId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Bilties_Branches_ToBranchId",
+                        column: x => x.ToBranchId,
+                        principalTable: "Branches",
+                        principalColumn: "BranchId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Bilties_Parties_ReceiverId",
+                        column: x => x.ReceiverId,
+                        principalTable: "Parties",
+                        principalColumn: "PartyId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Bilties_Parties_SenderId",
+                        column: x => x.SenderId,
+                        principalTable: "Parties",
+                        principalColumn: "PartyId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Bilties_Series_SeriesId",
+                        column: x => x.SeriesId,
+                        principalTable: "Series",
+                        principalColumn: "SeriesId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Bilties_Trucks_TruckId",
+                        column: x => x.TruckId,
+                        principalTable: "Trucks",
+                        principalColumn: "TruckId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "BiltyItems",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    BiltyItemId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ItemId = table.Column<int>(type: "int", nullable: false),
                     BiltyId = table.Column<int>(type: "int", nullable: false),
-                    ProductId = table.Column<int>(type: "int", nullable: false),
+                    ProductId = table.Column<int>(type: "int", nullable: true),
+                    PackageTypeId = table.Column<int>(type: "int", nullable: true),
+                    GoodsDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     Weight = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Rate = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    PackageType = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Remarks = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Remarks = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BiltyItems", x => x.Id);
+                    table.PrimaryKey("PK_BiltyItems", x => x.BiltyItemId);
                     table.ForeignKey(
                         name: "FK_BiltyItems_Bilties_BiltyId",
                         column: x => x.BiltyId,
@@ -263,17 +295,88 @@ namespace Transport.Migrations
                         principalColumn: "BiltyId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
+                        name: "FK_BiltyItems_PackageTypes_PackageTypeId",
+                        column: x => x.PackageTypeId,
+                        principalTable: "PackageTypes",
+                        principalColumn: "PackageTypeId");
+                    table.ForeignKey(
                         name: "FK_BiltyItems_Products_ProductId",
                         column: x => x.ProductId,
                         principalTable: "Products",
-                        principalColumn: "ProductId",
+                        principalColumn: "ProductId");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ManifestItems",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ManifestId = table.Column<int>(type: "int", nullable: false),
+                    BiltyId = table.Column<int>(type: "int", nullable: false),
+                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    Weight = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Destination = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Consignee = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    PaymentMode = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ManifestItems", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ManifestItems_Bilties_BiltyId",
+                        column: x => x.BiltyId,
+                        principalTable: "Bilties",
+                        principalColumn: "BiltyId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ManifestItems_Manifests_ManifestId",
+                        column: x => x.ManifestId,
+                        principalTable: "Manifests",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Bilties_FromBranchId",
+                table: "Bilties",
+                column: "FromBranchId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Bilties_ReceiverId",
+                table: "Bilties",
+                column: "ReceiverId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Bilties_SenderId",
+                table: "Bilties",
+                column: "SenderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Bilties_SeriesId",
+                table: "Bilties",
+                column: "SeriesId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Bilties_ToBranchId",
+                table: "Bilties",
+                column: "ToBranchId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Bilties_TruckId",
+                table: "Bilties",
+                column: "TruckId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_BiltyItems_BiltyId",
                 table: "BiltyItems",
                 column: "BiltyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BiltyItems_PackageTypeId",
+                table: "BiltyItems",
+                column: "PackageTypeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_BiltyItems_ProductId",
@@ -322,13 +425,10 @@ namespace Transport.Migrations
                 name: "MoneyReceipts");
 
             migrationBuilder.DropTable(
-                name: "Series");
-
-            migrationBuilder.DropTable(
                 name: "SubBranches");
 
             migrationBuilder.DropTable(
-                name: "Trucks");
+                name: "PackageTypes");
 
             migrationBuilder.DropTable(
                 name: "Products");
@@ -341,6 +441,12 @@ namespace Transport.Migrations
 
             migrationBuilder.DropTable(
                 name: "Parties");
+
+            migrationBuilder.DropTable(
+                name: "Series");
+
+            migrationBuilder.DropTable(
+                name: "Trucks");
 
             migrationBuilder.DropTable(
                 name: "Branches");
