@@ -20,4 +20,4 @@ namespace Transport.Data.Repositories
 
         public void Dispose() => _context.Dispose();
     }
-}
+}    

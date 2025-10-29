@@ -3,10 +3,11 @@ using Transport.Data;
 using Transport.Data.Repositories.IRepositories;
 using Transport.Dto;
 using Transport.Models;
+using Transport.Service.IService;
 
 namespace Transport.Service
 {
-    public class ManifestService
+    public class ManifestService:IManifestService
     {
         private readonly IUnitOfWork _unitOfWork;
 

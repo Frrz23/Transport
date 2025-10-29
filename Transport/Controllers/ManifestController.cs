@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Transport.Dto;
 using Transport.Service;
+using Transport.Service.IService;
 
 namespace Transport.Controllers
 {
@@ -8,9 +9,9 @@ namespace Transport.Controllers
     [Route("api/[controller]")]
     public class ManifestController : ControllerBase
     {
-        private readonly ManifestService _service;
+        private readonly IManifestService _service;
 
-        public ManifestController(ManifestService service)
+        public ManifestController(IManifestService service)
         {
             _service = service;
         }
@@ -32,7 +33,7 @@ namespace Transport.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var manifests = await _service.GetAllAsync();
+            var manifests = await _service.GetAllManifestsAsync();
             return Ok(manifests);
         }
     }

@@ -21,6 +21,13 @@ builder.Services.AddControllers()
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.Scan(scan => scan
+    .FromAssembliesOf(typeof(IBiltyService)) // base interfaces
+    .AddClasses(classes => classes.InNamespaces("Transport.Service"))
+    .AsImplementedInterfaces()
+    .WithScopedLifetime());
+
+
 
 var app = builder.Build();
 
