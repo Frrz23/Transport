@@ -9,6 +9,7 @@ namespace Transport.Data.Repositories.IRepositories
         Task AddAsync(T entity);
         void Update(T entity);
         void Delete(T entity);
+        Task DeleteByIdAsync(int id);
         Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate);
     }
 }
